@@ -1,7 +1,6 @@
 require "worksection"
 
 class Project < ApplicationRecord
-  include ::ActiveRecordConcern
 
   #belongs_to :user_from, foreign_key: 'user_from_id', class_name: 'AdminUser'
   belongs_to :user_to, foreign_key: 'user_to_id', class_name: 'AdminUser'
@@ -21,6 +20,10 @@ class Project < ApplicationRecord
       x.except!(:user_from, :date_added, :priority, :date_closed, :date_end, :tags, :date_start)
       sum.push(x)
     end
-    user_projects.map{|u_p| Project.where(page: u_p[:page]).update_or_create(u_p)}
+    user_projects.map{|u_p| Project.where(page: u_p[:page]).first_or_create do |project|
+      project.update_attributes(u_p)
+      end
+    }
+    #HubstaffClient.new.start_auth_code_url
   end
 end
