@@ -1,6 +1,6 @@
 ActiveAdmin.register Project do
   action_item :view_site do
-    link_to "Sync Projects", admin_projects_sync_path, remote: true, class: 'synchronize_button'
+    #link_to "Sync Projects", admin_projects_sync_path, remote: true, class: 'synchronize_button'
   end
 
   controller do
